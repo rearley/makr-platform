@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    # Replace with your actual ports (APP_PORT and MCP_PORT from .env)
+    ports:
+      - "5101:5101"
+      - "6101:6101"
+    env_file:
+      - .env
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    restart: unless-stopped
