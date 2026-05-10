@@ -7,6 +7,8 @@ services:
       - "6101:6101"
     env_file:
       - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     restart: unless-stopped

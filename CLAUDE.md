@@ -211,11 +211,11 @@ This is all it takes to integrate an existing Flask app.
 **Step 1 — `requirements.txt`**
 
 ```
-makr-platform @ git+https://${GITHUB_TOKEN}@github.com/rearley/makr-platform.git@main
+makr-platform @ git+ssh://git@github.com/rickearley/makr-platform.git@main
 ```
 
-`GITHUB_TOKEN` is a built-in GitHub Actions secret — no extra setup needed.
-For local dev, your configured Git credentials handle it transparently.
+On the dev server the SSH agent handles auth transparently.
+In GitHub Actions the runner has implicit HTTPS access to all repos in the same account — no extra config needed.
 
 **Step 2 — `app.py`** (add three lines, nothing else changes)
 
@@ -365,10 +365,16 @@ MCP_PORT is reachable only on the Docker internal network by the Hub container.
 to `main` (and on version tags) and pushes to `ghcr.io`.
 
 **Private dependency auth:**
-`GITHUB_TOKEN` is a built-in Actions secret — it's automatically available in
-any repo under the `rearley` account. The `pip install` in the Dockerfile uses it
-to pull `makr-platform` during the build. The token is only used at build time;
-it is never stored in the final image or on the server.
+`requirements.txt` uses the SSH URL (`git+ssh://git@github.com/rickearley/makr-platform.git`).
+
+- **Dev server**: the SSH agent supplies credentials automatically — no extra config.
+- **GitHub Actions**: the Actions runner has implicit HTTPS access to all repos in the
+  same account, so the SSH URL resolves without any secrets or build args.
+- **CI fallback**: if a future Actions run fails to pull `makr-platform`, add this line
+  to the Dockerfile before the `pip install` step:
+  ```dockerfile
+  RUN git config --global url."https://github.com/".insteadOf "git+ssh://git@github.com/"
+  ```
 
 **Version stamping:**
 The workflow passes `--build-arg VERSION=<git-ref>` so the running container
