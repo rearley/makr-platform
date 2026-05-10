@@ -101,6 +101,27 @@ confirms that a new deployment is live (Hub shows it in the tool cards).
 
 ---
 
+### `makr_platform/templates/makr_platform/nav.html` — Back to Hub partial
+
+`init_auth` registers a context processor that injects `hub_url` into every
+template automatically — tools never need to pass it manually.
+
+Include the nav partial in a tool's base template:
+
+```html+jinja
+{% include "makr_platform/nav.html" %}
+```
+
+Renders as:
+
+```html
+<a href="https://hub.makrholdings.com" class="back-to-hub">← Back to Hub</a>
+```
+
+Style `.back-to-hub` in the tool's own CSS as needed.
+
+---
+
 ### `makr_platform/mcp_base.py` — MCP sidecar scaffold
 
 ```python

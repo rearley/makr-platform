@@ -49,6 +49,15 @@ class TestAuthGuard:
         assert r.status_code == 200
 
 
+class TestContextProcessor:
+    def test_hub_url_injected_into_template_context(self, app):
+        with app.app_context():
+            ctx = {}
+            for proc in app.template_context_processors[None]:
+                ctx.update(proc())
+            assert ctx["hub_url"] == "https://hub.example.com"
+
+
 class TestHealthBlueprint:
     def test_health_response_shape(self, client):
         data = client.get("/health").get_json()

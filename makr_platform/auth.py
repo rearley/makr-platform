@@ -14,6 +14,10 @@ def init_auth(app):
     start before the config is fully validated (useful in testing).
     """
 
+    @app.context_processor
+    def inject_hub_url():
+        return dict(hub_url=os.environ.get("HUB_URL", ""))
+
     @app.before_request
     def _check_auth():
         if request.endpoint in _EXEMPT_ENDPOINTS:
