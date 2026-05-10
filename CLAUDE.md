@@ -6,6 +6,25 @@ Read this entire file before touching any code in a tool repo.
 
 ---
 
+## Versioning policy
+
+**Every change to this package must include a version bump** in both:
+- `pyproject.toml` — `version = "X.Y.Z"`
+- `makr_platform/__init__.py` — `__version__ = "X.Y.Z"`
+
+Both files must always agree. Use [semver](https://semver.org/):
+
+| Change type | Bump |
+|---|---|
+| Bug fix, docs, internal refactor (no API change) | patch: `0.2.0 → 0.2.1` |
+| New feature, new module, additive API change | minor: `0.2.0 → 0.3.0` |
+| Breaking change (removed/renamed API, changed behaviour) | major: `0.2.0 → 1.0.0` |
+
+Tool repos pin to `@main` so they always get the latest — bumping the version
+lets the Hub dashboard and `/version` endpoints reflect what's actually running.
+
+---
+
 ## What this platform is
 
 MAKR Holdings runs a suite of Flask tool apps (Invoicing, SOW, etc.) that all share
