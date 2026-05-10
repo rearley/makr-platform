@@ -34,7 +34,7 @@ def load_config() -> Config:
         app_port=int(os.environ["APP_PORT"]),
         mcp_port=int(os.environ["MCP_PORT"]),
         app_version=os.environ.get("APP_VERSION", "dev"),
-        hub_url=os.environ.get("HUB_URL", "https://hub.makrholdings.com"),
+        hub_url=os.environ.get("HUB_URL", ""),
         database_url=os.environ.get("DATABASE_URL", ""),
         s3_bucket=os.environ.get("S3_BUCKET", ""),
         s3_region=os.environ.get("S3_REGION", "us-east-1"),

@@ -50,6 +50,8 @@ def _unauthorized(req, reason: str = "Authentication required"):
     if wants_json:
         return jsonify({"error": reason}), 401
 
-    hub_url = os.environ.get("HUB_URL", "https://hub.makrholdings.com")
+    hub_url = os.environ.get("HUB_URL")
+    if not hub_url:
+        raise RuntimeError("HUB_URL environment variable is required")
     next_url = req.url
     return redirect(f"{hub_url}/login?next={next_url}")
