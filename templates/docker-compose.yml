@@ -1,14 +1,9 @@
 services:
   app:
     build: .
-    # Replace with your actual ports (APP_PORT and MCP_PORT from .env)
-    ports:
-      - "5101:5101"
-      - "6101:6101"
+    network_mode: host
     env_file:
       - .env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     restart: unless-stopped

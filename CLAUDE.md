@@ -354,8 +354,14 @@ supervisord
 Copy `templates/supervisord.conf` and `templates/Dockerfile` into the tool repo.
 Update the `EXPOSE` line in the Dockerfile to match your ports.
 
+**Host networking:** All tool containers run with `network_mode: host`. This means:
+- The app binds directly to the host port — no `ports:` mapping needed in docker-compose.
+- `DATABASE_URL` uses `localhost` to reach the host Postgres (not `host.docker.internal`).
+- `extra_hosts: host.docker.internal:host-gateway` is not needed.
+- This matches how all tools (including DayCompass) are deployed on this server.
+
 The sidecar port is **never exposed through Plesk**. Plesk only proxies APP_PORT.
-MCP_PORT is reachable only on the Docker internal network by the Hub container.
+MCP_PORT is reachable on the host network by the Hub container.
 
 ---
 
