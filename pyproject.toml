@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "makr-platform"
-version = "0.2.0"
+version = "0.2.1"
 description = "MAKR Holdings Internal Tools Platform — shared starter kit for Flask tool apps"
 requires-python = ">=3.11"
 dependencies = [
@@ -24,6 +24,9 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["makr_platform*"]
+
+[tool.setuptools.package-data]
+makr_platform = ["templates/**/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
