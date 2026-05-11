@@ -455,7 +455,11 @@ in the dashboard, confirming a deploy is live.
      icon: 🔧
      mcp_port: MCP_PORT
    ```
-6. Restart the Hub (or send SIGHUP) so it discovers the new sidecar tools.
+6. Pick up new sidecar tools at the Hub. Either:
+   - `docker kill -s HUP makr-hub` — re-runs `_register_proxy_tools()` without dropping connections
+   - `docker restart makr-hub` — full restart (heavier, also works)
+
+   Verify with `docker logs --since 30s makr-hub | grep "Registered proxy"`.
 7. Confirm: Hub dashboard shows the tool as healthy; `/version` shows the right tag.
 
 Watchtower polls `ghcr.io` every 5 minutes and auto-restarts containers when
